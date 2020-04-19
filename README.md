@@ -1,5 +1,7 @@
 # suiadmin
 
+小程序管理后台，vue4.0+element-ui
+
 ## Project setup
 ```
 npm install
