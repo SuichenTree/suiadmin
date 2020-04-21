@@ -5,13 +5,13 @@
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column type="selection"  width="50"></el-table-column>
                 <el-table-column type="index" width="50"></el-table-column>
-                <el-table-column prop="headUrl" label="头像">
+                <el-table-column prop="headUrl" label="头像" width="80">
                     <template slot-scope="scope">
-                        <el-avatar shape="square" :size="30" :src="scope.row.headUrl"></el-avatar>
+                        <el-avatar shape="square" size="30" :src="scope.row.headUrl" ></el-avatar>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="ID"></el-table-column>
-                <el-table-column  prop="name" label="姓名"></el-table-column>
+                <el-table-column prop="id" label="ID" width="60"></el-table-column>
+                <el-table-column prop="name" label="姓名"></el-table-column>
                 <el-table-column prop="gender"  label="性别"></el-table-column>
                 <el-table-column prop="age" label="年龄"></el-table-column>
                 <el-table-column prop="phone" label="电话" width="150"></el-table-column>
@@ -57,15 +57,14 @@ export default {
         }
     },methods:{
       toAdd(){
-        this.$router.push({ path: '/main/user/add' })
+        this.$router.push({ path: '/user/add' })
       }
     },mounted(){
       let that = this;
       //生命周期
-      this.$axios.post("/shu/admin/getAllUser")
+      this.$axios.get("/shu/admin/getAllUser")
         .then(function (res) {
           console.log(res.data);
-          
           //渲染表格分页
           that.tableData = res.data.tableData;
           that.total = res.data.totalNumber;

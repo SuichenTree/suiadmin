@@ -40,27 +40,29 @@ export default {
       if(this.input_user&&this.input_pwd){
         //调用后台请求
         //URLSearchParams对象会让参数用表单的格式请求
-        let param = new URLSearchParams()
-        param.append('userName', this.input_user)
-        param.append('passWord', this.input_pwd)
-        this.$axios.post("/shu/admin/login",param)
+        // let param = new URLSearchParams()
+        // param.append('userName', this.input_user)
+        // param.append('passWord', this.input_pwd)
+
+        this.$axios.get('/shu/admin/login',{params: { userName:this.input_user,passWord:this.input_pwd }})
         .then(function (res) {
           console.log(res.data.isAdmin);
           if(res.data.isAdmin === 1){
               //提示
               that.$message.success('登录成功');
               //将登录信息赋值到全局变量中
-              // that.userInfo.headURL=res.data.headURL;
-              // that.userInfo.isAdmin=res.data.isAdmin;
-              // that.userInfo.userName=res.data.userName;
-              // that.userInfo.password=res.data.password;
-              // that.userInfo.userId=res.data.userId;
-              // that.$GlobalData.userInfo = that.userInfo;
-              // that.$GlobalData.isLogin = 1;
+              that.$store.commit({
+                  type:"modifyLoginStatus",
+                  loginStatus:1
+              });
+              //将登录的用户信息存储到全局变量中
+              that.$store.commit({
+                  type:"addUserInfo",
+                  userInfo:res.data
+              })
 
-              //跳转
+              //跳转路由
               that.$router.push({ path: '/home' })
-
           }else{
               that.$message.error('登录失败,输入信息有误！！！');
           }

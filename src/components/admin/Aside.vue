@@ -3,8 +3,6 @@
    <el-menu
           router="true"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
           background-color="#D3DCE6">
           <el-menu-item index="/home">
               <i class="el-icon-s-platform"></i>
