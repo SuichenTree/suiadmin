@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import home from '@/views/admin/Home.vue'
 import login from "@/views/Login.vue"
+import test from "@/views/Test.vue"
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ Vue.use(VueRouter)
     path: '/login',
     name: "登录页面",
     component:login
+  },
+  {
+    path: '/test',
+    name: "测试页面",
+    component:test
   },
   {
     path: '/home',

@@ -1,13 +1,15 @@
 <template>
     <div>
         <el-card class="box-card" shadow="always">
-            <!-- <el-col :span="3"><el-button icon="el-icon-plus" type="primary" @click="toAdd()">添加</el-button></el-col> -->
+            <div slot="header" class="clearfix" style="text-align:left">
+               <el-button type="primary" @click="toAdd()">添加新用户</el-button>
+            </div>
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column type="selection"  width="50"></el-table-column>
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="headUrl" label="头像" width="80">
                     <template slot-scope="scope">
-                        <el-avatar shape="square" size="30" :src="scope.row.headUrl" ></el-avatar>
+                        <el-avatar shape="square" :size="40" :src="scope.row.headUrl" ></el-avatar>
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="ID" width="60"></el-table-column>
@@ -64,7 +66,7 @@ export default {
       //生命周期
       this.$axios.get("/shu/admin/getAllUser")
         .then(function (res) {
-          console.log(res.data);
+          console.log("全部用户="+res.data);
           //渲染表格分页
           that.tableData = res.data.tableData;
           that.total = res.data.totalNumber;
