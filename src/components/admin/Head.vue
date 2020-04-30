@@ -7,7 +7,7 @@
       </div>
     </el-col>
     <el-col :span="4">
-        <el-menu mode="horizontal" background-color="rgb(138, 177, 228)" >
+        <el-menu mode="horizontal" background-color="rgb(138, 177, 228)" @select="handleSelect">
           <el-menu-item>
               <el-avatar shape="square" :size="50" :src="form.headUrl"></el-avatar>
           </el-menu-item>
@@ -66,8 +66,8 @@
                 </el-form-item>
                 <el-form-item label="性别">
                     <el-radio-group v-model="form.gender">
-                        <el-radio label="男"></el-radio>
-                        <el-radio label="女"></el-radio>
+                        <el-radio :label="1">男</el-radio>
+                        <el-radio :label="2">女</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="地址">
@@ -78,7 +78,7 @@
                 </el-form-item>
         </el-form>
         <el-button type="warning" @click="cancelRightDrawer">取消</el-button>
-        <el-button  type="primary">确定修改</el-button>
+        <el-button  type="primary" @click="updateUserInfo">确定修改</el-button>
       </div>
       <div v-if="c2">
         <el-input :value="this.form.userName" prefix-icon="el-icon-user-solid" placeholder="请输入姓名"></el-input>
@@ -145,6 +145,7 @@ export default {
         },
         //修改密码方法
         updatePassword(){
+
             let that = this;
             if(this.form.userName!=="" && this.form.passWord !== "" && this.newPassword !== ""){
                 //参数以键值对的形式
@@ -160,6 +161,8 @@ export default {
                       //更新数据
                       that.$store.state.userInfo.passWord = that.newPassword;
                       that.newPassword = "";
+                      //关闭抽屉
+                      that.Rightdrawer = false;
                   }else{
                       that.$message.error('修改失败,输入信息有误！！！');
                   }
@@ -170,6 +173,51 @@ export default {
             }else{
               that.$message.warning('信息未填写完整！！！');
             }
+
+        },
+        //修改个人用户信息方法
+        updateUserInfo(){
+          let that = this;
+          //参数以键值对的形式
+          let param = new URLSearchParams()
+          param.append('userName', this.form.userName)
+          param.append('passWord', this.form.passWord)
+          param.append('headUrl', this.form.headUrl)
+          param.append('userId', this.form.userId)
+          param.append('gender', this.form.gender)
+          param.append('age', this.form.age)
+          param.append('phone', this.form.phone)
+          param.append('email', this.form.email)
+          param.append('address', this.form.address)
+
+          this.$axios.put("/shu/admin/updateUserInfo",param)
+          .then(function(res){
+              if(res.data.isSuccess === 1){
+                  //消息提示
+                  that.$message.success('修改成功');
+                  //更新数据
+                  that.$store.state.userInfo.userName = that.form.userName;
+                  that.$store.state.userInfo.passWord = that.form.passWord;
+                  that.$store.state.userInfo.headUrl = that.form.headUrl;
+                  that.$store.state.userInfo.userId = that.form.userId;
+                  that.$store.state.userInfo.gender = that.form.gender;
+                  that.$store.state.userInfo.age = that.form.age;
+                  that.$store.state.userInfo.phone = that.form.phone;
+                  that.$store.state.userInfo.email = that.form.email;
+                  that.$store.state.userInfo.address = that.form.address;
+                  //关闭抽屉
+                  that.Rightdrawer = false;
+              }else{
+                  that.$message.error('修改失败,输入信息有误！！！');
+              }
+          }).catch(function(error){
+              that.$message.error('服务器未响应，请等待！！！');
+          })
+        },
+        handleSelect (index, indexPath) {
+          console.log("===="+index)
+          console.log("===="+indexPath);
+          // this.indexBreadcrumbs = indexPath
         }
     },
     created(){

@@ -1,8 +1,16 @@
 <template>
     <div>
         <el-card class="box-card" shadow="always">
-            <div slot="header" class="clearfix" style="text-align:left">
-               <el-button type="primary" @click="toAdd()">添加新用户</el-button>
+            <div slot="header">
+                <el-row type="flex" class="row-bg" justify="space-between">
+                    <el-col :span="2">
+                        <span>用户列表页面</span>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-button size="small" type="warning">批量删除</el-button>
+                        <el-button size="small" type="primary" @click="toAddUser">新增用户</el-button>
+                    </el-col>
+                </el-row>
             </div>
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column type="selection"  width="50"></el-table-column>
@@ -23,11 +31,11 @@
                     <template slot-scope="scope">
                         <el-button
                         size="mini"
-                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        @click="toEdit(scope.row)">编辑</el-button>
                         <el-button
                         size="mini"
                         type="danger"
-                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        @click="toDelete(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -55,18 +63,69 @@ export default {
     data(){
         return{
           tableData: [],
-          total:10,
+          total:10
         }
     },methods:{
-      toAdd(){
-        this.$router.push({ path: '/user/add' })
+        //跳转路由，路由传值
+      toEdit(obj){
+          this.$router.push({
+               path: '/user/edit',
+               query: {
+                   userId:obj.id,
+               }
+          })
+      },
+      //新增用户
+      toAddUser(){
+           this.$router.push({path: '/user/add'})
+      },
+      //删除用户
+      toDelete(obj){
+          let that = this;
+            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$axios.delete("/shu/admin/user",{params: {userId:obj.id}})
+                .then(function (res) {
+                  if(res.data.isSuccess == 1){
+                      console.log("删除单个用户成功");
+                       //删除成功消息提示
+                        that.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        //通过空组件，来实现当前组件刷新
+                        that.$router.push({path: '/empty',query:that.$route.path})
+                  }else{
+                      console.log("删除单个用户失败");
+                        that.$message({
+                            type: 'warning',
+                            message: '删除失败!'
+                        });
+                  }
+                })
+                .catch(function (error) {
+                    console.log("服务器未响应，请等待！！");
+                    that.$message({
+                            type: 'warning',
+                            message: '服务器未响应，请等待！！！!'
+                        });
+                })
+               
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
       }
     },mounted(){
-      let that = this;
-      //生命周期
-      this.$axios.get("/shu/admin/getAllUser")
+        let that = this;
+        //生命周期
+        this.$axios.get("/shu/admin/getAllUser")
         .then(function (res) {
-          console.log("全部用户="+res.data);
           //渲染表格分页
           that.tableData = res.data.tableData;
           that.total = res.data.totalNumber;

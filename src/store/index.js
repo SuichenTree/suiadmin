@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     loginStatus:0, //登录状态
-     //用户信息
+     //登录用户信息
     userInfo:{
       headUrl:"",
       userName:"",  
@@ -18,7 +18,7 @@ export default new Vuex.Store({
       phone:"",
       email:"",
       address:""
-    } 
+    }
   },
   mutations: {
     //修改登录状态

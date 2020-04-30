@@ -26,8 +26,15 @@
 import Head from '@/components/admin/Head.vue'
 import Aside from '@/components/admin/Aside.vue'
 import Footer from '@/components/admin/Footer.vue'
+
 export default {
   name: 'Home',
+  data(){
+    return{
+    }
+  },
+  methods: {
+  },
   components: {
     "s_head":Head,
     "s_aside":Aside,
@@ -77,4 +84,5 @@ export default {
     text-align: center;
     line-height: 200px;
 }
+
 </style>

@@ -1,7 +1,7 @@
 <template>
 <div>
    <el-menu
-          router="true"
+          router
           class="el-menu-vertical-demo"
           background-color="#D3DCE6">
           <el-menu-item index="/home">
@@ -10,7 +10,7 @@
                   工作台
               </span>
           </el-menu-item>
-          <el-submenu index="1">
+          <el-submenu index="/user">
             <template slot="title">
               <i class="el-icon-s-custom"></i>
               <span>用户管理</span>
@@ -20,7 +20,7 @@
               <el-menu-item index="/user/add">用户添加</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="2">
+          <el-submenu index="/exam">
             <template slot="title">
               <i class="el-icon-edit-outline"></i>
               <span>测试管理</span>
@@ -38,11 +38,9 @@
 export default {
     data() {
       return {
-        
       };
     },
     methods: {
-     
     }
   }
 </script>
@@ -54,6 +52,5 @@ export default {
     text-align: center;
     line-height: 200px;
 }
-
 </style>
 

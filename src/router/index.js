@@ -29,6 +29,11 @@ Vue.use(VueRouter)
     redirect: "/home/dashboard", //默认加载的路由
     children:[
       {
+        name:"空组件",
+        path:"/empty",
+        component: () => import('@/components/admin/Empty.vue')
+      },
+      {
         name:"仪表盘",
         path:"/home/dashboard",
         component: resolve => { require(['@/components/admin/Dashboard.vue'], resolve) }
@@ -42,6 +47,11 @@ Vue.use(VueRouter)
         name:"用户新增",
         path:"/user/add",
         component: () => import('@/views/admin/user/userAdd.vue')
+      },
+      {
+        name:"用户编辑",
+        path:"/user/edit",
+        component: () => import('@/views/admin/user/userEdit.vue')
       }
     ]
   }
