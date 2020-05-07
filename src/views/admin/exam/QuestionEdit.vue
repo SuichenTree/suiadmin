@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
         <div slot="header" style="text-align:left;">
-          <span>用户编辑页面</span>
+          <span>题目编辑页面</span>
         </div>
         <el-form :inline="true" :model="form" class="demo-form-inline">
           <el-row :gutter="20" type="flex" justify="center">

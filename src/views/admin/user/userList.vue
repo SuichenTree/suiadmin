@@ -7,13 +7,13 @@
                         <span>用户列表页面</span>
                     </el-col>
                     <el-col :span="4">
-                        <el-button size="small" type="warning">批量删除</el-button>
+                        <el-button size="small" type="warning" @click="deleteUsers">批量删除</el-button>
                         <el-button size="small" type="primary" @click="toAddUser">新增用户</el-button>
                     </el-col>
                 </el-row>
             </div>
-            <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column type="selection"  width="50"></el-table-column>
+            <el-table :data="tableData" stripe style="width: 100%" @selection-change="handleSelectionChange">
+                <el-table-column type="selection"  width="50" ></el-table-column>
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="headUrl" label="头像" width="80">
                     <template slot-scope="scope">
@@ -63,10 +63,11 @@ export default {
     data(){
         return{
           tableData: [],
-          total:10
+          total:10,
+          multipleSelection: []
         }
     },methods:{
-        //跳转路由，路由传值
+      //跳转路由，路由传值
       toEdit(obj){
           this.$router.push({
                path: '/user/edit',
@@ -91,6 +92,59 @@ export default {
                 .then(function (res) {
                   if(res.data.isSuccess == 1){
                       console.log("删除单个用户成功");
+                       //删除成功消息提示
+                        that.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        //通过空组件中转，来实现当前组件刷新
+                        that.$router.push({path: '/empty',query:that.$route.path})
+                  }else{
+                      console.log("删除单个用户失败");
+                        that.$message({
+                            type: 'warning',
+                            message: '删除失败!'
+                        });
+                  }
+                })
+                .catch(function (error) {
+                    console.log("服务器未响应，请等待！！");
+                    that.$message({
+                            type: 'warning',
+                            message: '服务器未响应，请等待！！！!'
+                        });
+                })
+               
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
+      },
+      //表格批量选择时
+       handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+      //批量删除用户
+      deleteUsers(){
+            let that = this;
+            //选中的userId
+            let selects = this.multipleSelection;
+            let userIds = {};
+            for(var i in selects){
+                userIds[i] =  selects[i].id;
+            }
+            console.log("val",userIds);
+            this.$confirm('此操作将批量删除选中用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$axios.delete("/shu/admin/deleteUsers",{params: {userIds:userIds}})
+                .then(function (res) {
+                  if(res.data.isSuccess == 1){
+                      console.log("删除选中用户成功");
                        //删除成功消息提示
                         that.$message({
                             type: 'success',

@@ -98,11 +98,9 @@ export default {
       //新增用户
       addUser(){
           let that = this;
-
           let param = new URLSearchParams()
           param.append('name', this.form.userName)
           param.append('password', this.form.passWord)
-          // param.append('headUrl', this.form.headUrl)
           param.append('gender', this.form.gender)
           param.append('age', this.form.age)
           param.append('phone', this.form.phone)

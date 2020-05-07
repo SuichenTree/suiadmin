@@ -1,97 +1,132 @@
 <template>
   <div>
-    <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
-
-<el-dialog title="用户添加" :visible.sync="dialogFormVisible">  
-
-   <el-form :inline="true" :model="form" class="demo-form-inline">
+    <el-card class="box-card">
+        <div slot="header" style="text-align:left;">
+          <span>题目编辑页面</span>
+        </div>
+        <el-form :inline="true" :model="form" class="demo-form-inline">
           <el-row :gutter="20" type="flex" justify="center">
-            <el-col :span="6">
-              <el-form-item label="用户名">
-                    <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+            <el-col :span="8">
+                <el-form-item label="所属测试名称">
+                    <el-input v-model="form.phone" placeholder="请输入所属测试名称"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="问题ID">
+                  <el-input v-model="form.userName" placeholder="请输入问题ID"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
-                <el-form-item label="密码">
-                    <el-input v-model="form.password"  placeholder="请输入密码"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="6">
-                <el-form-item label="年龄">
-                    <el-input-number v-model="form.age" @change="handleChange" :min="15" :max="100"></el-input-number>
-                </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20" type="flex" justify="center">
-            <el-col :span="6">
-              <el-form-item label="地址">
-                    <el-input v-model="form.address" placeholder="请输入地址"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="6">
-                <el-form-item label="邮箱">
-                    <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="6">
-                <el-form-item label="性别">
+            <el-col :span="8">
+                <el-form-item label="问题类型">
                     <el-radio-group v-model="form.gender">
-                        <el-radio label="男"></el-radio>
-                        <el-radio label="女"></el-radio>
+                        <el-radio :label="1">单选题</el-radio>
+                        <el-radio :label="2">多选题</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="20" type="flex" justify="center">
-            <el-col :span="6">
-                <el-form-item label="头像">
-                    <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple style="height:200px">
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-                    </el-upload>
+            <el-col :span="8">
+                <el-form-item label="问题状态" >
+                  <el-switch v-model="form.examStatus" active-text="禁用" inactive-text="正常" :active-value="0" 
+                  :inactive-value="1" active-color="#ff4949" inactive-color="#13ce66">
+                  </el-switch>
                 </el-form-item>
             </el-col>
-             <el-col :span="6">
-                
+          </el-row>
+          <el-row :gutter="20" type="flex" justify="center">
+            <el-col :span="8">
+              <el-form-item label="问题描述">
+                  <el-input type="textarea" autosize v-model="form.userName" placeholder="请输入问题描述" style="width:400px;"></el-input>
+              </el-form-item>
             </el-col>
-             <el-col :span="6">
+            <el-col :span="8">
+            </el-col>
+          </el-row>
+          <el-divider>下面是问题选项编辑</el-divider>
+          <el-row :gutter="20" type="flex" justify="center" >
+            <el-col :span="8" v-for="(item,index) in dynamicItem" :key="index">
+                 <el-form-item
+                    :label="'选项' + (index+1)"
+                    :prop="'dynamicItem.' + index + '.option'"
+                >
+                    <el-input v-model="item.option"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <i class="el-icon-delete" @click="deleteItem(item, index)"></i>
+                </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-  </div>
-</el-dialog>
-
-
-
+        <el-button type="warning" @click="toBack" >返回</el-button>
+        <el-button @click="addItem" type="primary">增加</el-button>
+        <el-button  type="primary" @click="updateUserInfo">确定修改</el-button>
+    </el-card>
   </div>
 </template>
 
 <script>
-
 export default {
     data() {
       return {
-        dialogFormVisible: false,
         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          headUrl:"",
+          userName:"",  
+          userId:"",      
+          passWord:"",
+          isAdmin:"",
+          gender:"",
+          age:"",
+          phone:"",
+          email:"",
+          address:""
         },
-        formLabelWidth: '100px'
-      };
+        dynamicItem: [
+            {
+                option: ''
+            }
+        ]
+      }
     },
     methods: {
-     
+      //返回用户列表组件
+      toBack() {
+        this.$router.push({path: '/user/list'})
+      },
+      addItem () {
+        this.dynamicItem.push({
+            option: ''
+        })
+        },
+        deleteItem (item, index) {
+        this.dynamicItem.splice(index, 1)
+        }
+    },
+    created(){
+      //接受路由传值
+      let that = this;
+      this.$axios.get("/shu/admin/user",{params: { userId:this.$route.query.userId}})
+      .then(function (res) {
+        if(res.data.isSuccess == 1){
+            console.log("查询用户 success");
+            that.form.headUrl = res.data.headUrl;
+            that.form.userId = res.data.userId;
+            that.form.userName = res.data.userName;
+            that.form.phone = res.data.phone;
+            that.form.isAdmin = res.data.isAdmin;
+            that.form.gender = res.data.gender;
+            that.form.age = res.data.age;
+            that.form.email = res.data.email;
+            that.form.address = res.data.address;
+        }else{
+            console.log("查询用户 fail");
+        }
+      })
+      .catch(function (error) {
+        console.log("服务器未响应，请等待！！");
+      })
     }
+
 }
 </script>
 

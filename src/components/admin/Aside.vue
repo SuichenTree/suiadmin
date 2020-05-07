@@ -26,8 +26,7 @@
               <span>测试管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1">测试列表</el-menu-item>
-              <el-menu-item index="2-2">测试添加</el-menu-item>
+              <el-menu-item index="/exam/list">测试列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
     </el-menu>
