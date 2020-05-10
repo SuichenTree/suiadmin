@@ -22,6 +22,7 @@
                         <el-tag :type="scope.row.examStatus === 1 ? 'success' : 'danger'">{{scope.row.examStatus == 1 ? "正常":"禁用"}}</el-tag>
                     </template>
                 </el-table-column>
+                 <el-table-column prop="questionNumber" label="题库数量"></el-table-column>
                 <el-table-column fixed="right" label="操作">
                     <template slot-scope="scope">
                         <el-button
@@ -38,63 +39,69 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!-- 分割线 -->
             <el-divider></el-divider>
+            <!-- 分页 -->
             <el-row type="flex" class="row-bg" justify="center">
                 <el-col :span="12">
                     <div class="block">
                         <el-pagination
-                        :page-size="10"
-                        layout="total, prev, pager, next"
-                        :total="total"
-                        background>
+                        background
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[5,10,20,30]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
                         </el-pagination>
                     </div>
                 </el-col>
             </el-row>
         </el-card>
         <!-- 测试新增对话框表单 -->
-        <el-dialog title="测试新增管理" width="30%" :visible.sync="dialogFormAdd" destroy-on-close="true" :before-close="handleClose" :close-on-click-modal="false">
-        <el-form :model="form">
-            <el-form-item label="测试名称">
-                <el-input v-model="form.examName"></el-input>
-            </el-form-item>
-            <el-form-item label="测试类型">
-                <el-input v-model="form.examType"></el-input>
-            </el-form-item>
-            <el-form-item label="测试状态" >
-                <el-switch v-model="form.examStatus" active-text="禁用" inactive-text="正常" :active-value="0" 
-                :inactive-value="1" active-color="#ff4949" inactive-color="#13ce66">
-                </el-switch>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormAdd = false">取 消</el-button>
-            <el-button type="primary" @click="AddExam">确定新增</el-button>
-        </div>
+        <el-dialog title="测试新增管理" width="30%" :visible.sync="dialogFormAdd" :destroy-on-close="true" :before-close="handleClose" :close-on-click-modal="false">
+            <el-form :model="form">
+                <el-form-item label="测试名称">
+                    <el-input v-model="form.examName"></el-input>
+                </el-form-item>
+                <el-form-item label="测试类型">
+                    <el-input v-model="form.examType"></el-input>
+                </el-form-item>
+                <el-form-item label="测试状态" >
+                    <el-switch v-model="form.examStatus" active-text="禁用" inactive-text="正常" :active-value="0" 
+                    :inactive-value="1" active-color="#ff4949" inactive-color="#13ce66">
+                    </el-switch>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormAdd = false">取 消</el-button>
+                <el-button type="primary" @click="AddExam">确定新增</el-button>
+            </div>
         </el-dialog>
 
          <!-- 测试编辑对话框表单 -->
-        <el-dialog title="测试编辑管理" width="30%" :visible.sync="dialogFormEdit" destroy-on-close="true" :before-close="handleClose" :close-on-click-modal="false">
-        <el-form :model="form">
-            <el-form-item label="测试ID">
-            <el-input v-model="form.examId" disabled="true"></el-input>
-            </el-form-item>
-            <el-form-item label="测试名称">
-            <el-input v-model="form.examName"></el-input>
-            </el-form-item>
-            <el-form-item label="测试类型">
-            <el-input v-model="form.examType"></el-input>
-            </el-form-item>
-            <el-form-item label="测试状态" >
-                <el-switch v-model="form.examStatus" active-text="禁用" inactive-text="正常" :active-value="0" 
-                :inactive-value="1" active-color="#ff4949" inactive-color="#13ce66">
-                </el-switch>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormEdit = false">取 消</el-button>
-            <el-button type="primary" @click="EditExam">确定修改</el-button>
-        </div>
+        <el-dialog title="测试编辑管理" width="30%" :visible.sync="dialogFormEdit" :destroy-on-close="true" :before-close="handleClose" :close-on-click-modal="false">
+            <el-form :model="form">
+                <el-form-item label="测试ID">
+                <el-input v-model="form.examId" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="测试名称">
+                <el-input v-model="form.examName"></el-input>
+                </el-form-item>
+                <el-form-item label="测试类型">
+                <el-input v-model="form.examType"></el-input>
+                </el-form-item>
+                <el-form-item label="测试状态" >
+                    <el-switch v-model="form.examStatus" active-text="禁用" inactive-text="正常" :active-value="0" 
+                    :inactive-value="1" active-color="#ff4949" inactive-color="#13ce66">
+                    </el-switch>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormEdit = false">取 消</el-button>
+                <el-button type="primary" @click="EditExam">确定修改</el-button>
+            </div>
         </el-dialog>
     </div>
 </template>
@@ -107,6 +114,8 @@ export default {
             total:10,
             dialogFormEdit: false,
             dialogFormAdd: false,
+            currentPage:1,
+            pageSize:10,
             form: {
                 examId:"",
                 examName:"",
@@ -140,7 +149,7 @@ export default {
                   //消息提示
                   that.$message.success('修改成功');
                   //通过空组件中转，来实现当前组件刷新
-                  that.$router.push({path: '/empty',query:that.$route.path})
+                  that.$router.push({path: '/empty',query:that.$router.currentRoute.fullPath})
               }else{
                   that.$message.error('修改失败,输入信息有误！！！');
               }
@@ -168,7 +177,7 @@ export default {
                   //消息提示
                   that.$message.success('新增成功');
                   //通过空组件中转，来实现当前组件刷新
-                  that.$router.push({path: '/empty',query:that.$route.path})
+                  that.$router.push({path: '/empty',query:that.$router.currentRoute.fullPath})
               }else{
                   that.$message.error('新增失败,输入信息有误！！！');
               }
@@ -194,7 +203,7 @@ export default {
                             message: '删除成功!'
                         });
                         //通过空组件，来实现当前组件刷新
-                        that.$router.push({path: '/empty',query:that.$route.path})
+                        that.$router.push({path: '/empty',query:that.$router.currentRoute.fullPath})
                   }else{
                       console.log("删除失败");
                         that.$message({
@@ -233,11 +242,25 @@ export default {
                    examId:obj.examId,
                }
           })
-      }
-    },mounted(){
-        //生命周期
+      },
+      //分页处理1
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+        this.pageSize = val;
+        //调用分页查询方法
+        this.PaginationSelect();
+      },
+      //分页处理2
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+        this.currentPage = val;
+        //调用分页查询方法
+        this.PaginationSelect();
+      },
+      //分页查询
+      PaginationSelect(){
         let that = this;
-        this.$axios.get("/shu/admin/getAllExam")
+        this.$axios.get("/shu/admin/getAllExam",{params: {currentPage:this.currentPage,pageSize:this.pageSize}})
         .then(function (res) {
           //渲染表格分页
           that.tableData = res.data.tableData;
@@ -246,6 +269,10 @@ export default {
         .catch(function (error) {
           console.log("服务器未响应，请等待！！");
         })
+      }
+    },mounted(){
+        //调用分页查询方法
+        this.PaginationSelect();
     }
 }
 </script>

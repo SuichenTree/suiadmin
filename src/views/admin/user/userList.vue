@@ -39,17 +39,21 @@
                     </template>
                 </el-table-column>
             </el-table>
-
+            <!-- 分割线 -->
             <el-divider></el-divider>
-
+            <!-- 分页 -->
             <el-row type="flex" class="row-bg" justify="center">
                 <el-col :span="12">
                     <div class="block">
                         <el-pagination
-                        :page-size="10"
-                        layout="total, prev, pager, next"
-                        :total="total"
-                        background>
+                        background
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[5,10,20,30]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
                         </el-pagination>
                     </div>
                 </el-col>
@@ -64,7 +68,9 @@ export default {
         return{
           tableData: [],
           total:10,
-          multipleSelection: []
+          multipleSelection: [],
+          currentPage:1,
+          pageSize:10
         }
     },methods:{
       //跳转路由，路由传值
@@ -98,7 +104,7 @@ export default {
                             message: '删除成功!'
                         });
                         //通过空组件中转，来实现当前组件刷新
-                        that.$router.push({path: '/empty',query:that.$route.path})
+                        that.$router.push({path: '/empty',query:that.$router.currentRoute.fullPath})
                   }else{
                       console.log("删除单个用户失败");
                         that.$message({
@@ -151,7 +157,7 @@ export default {
                             message: '删除成功!'
                         });
                         //通过空组件，来实现当前组件刷新
-                        that.$router.push({path: '/empty',query:that.$route.path})
+                        that.$router.push({path: '/empty',query:that.$router.currentRoute.fullPath})
                   }else{
                       console.log("删除单个用户失败");
                         that.$message({
@@ -174,20 +180,38 @@ export default {
                     message: '已取消删除'
                 });          
             });
+      },
+      //分页处理1
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+        this.pageSize = val;
+        //调用分页查询方法
+        this.PaginationSelect();
+      },
+      //分页处理2
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+        this.currentPage = val;
+        //调用分页查询方法
+        this.PaginationSelect();
+      },
+      //分页查询
+      PaginationSelect(){
+            let that = this;
+            //生命周期
+            this.$axios.get("/shu/admin/getAllUser",{params: {currentPage:this.currentPage,pageSize:this.pageSize}})
+            .then(function (res) {
+                //渲染表格分页
+                that.tableData = res.data.tableData;
+                that.total = res.data.totalNumber;
+            })
+            .catch(function (error) {
+                console.log("服务器未响应，请等待！！");
+            })
       }
     },mounted(){
-        let that = this;
-        //生命周期
-        this.$axios.get("/shu/admin/getAllUser")
-        .then(function (res) {
-          //渲染表格分页
-          that.tableData = res.data.tableData;
-          that.total = res.data.totalNumber;
-
-        })
-        .catch(function (error) {
-          console.log("服务器未响应，请等待！！");
-        })
+        //调用分页查询方法
+        this.PaginationSelect();
     }
 }
 </script>

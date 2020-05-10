@@ -27,6 +27,7 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/exam/list">测试列表</el-menu-item>
+              <el-menu-item index="/question/list">题目列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
     </el-menu>

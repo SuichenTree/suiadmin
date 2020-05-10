@@ -73,6 +73,16 @@ Vue.use(VueRouter)
         name:"题目编辑",
         path:"/exam/question/edit",
         component: () => import('@/views/admin/exam/QuestionEdit.vue')
+      },{
+        name:"题目新增",
+        path:"/exam/question/add",
+        component: () => import('@/views/admin/exam/QuestionAdd.vue')
+      },
+      //题目Question
+      {
+        name:"题目列表",
+        path:"/question/list",
+        component: () => import('@/views/admin/exam/QuestionList2.vue')
       }
     ]
   }

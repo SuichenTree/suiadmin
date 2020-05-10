@@ -5,32 +5,27 @@
           <span>题目新增页面</span>
         </div>
         <el-form :inline="true" :model="form" class="demo-form-inline">
-            <el-row :gutter="20" type="flex" justify="center">
-                <el-col :span="8">
+          <el-row :gutter="20" type="flex" justify="center">
+                <el-col :span="7">
                     <el-form-item label="所属测试ID">
                     <el-input v-model="form.examId" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="7">
                     <el-form-item label="所属测试名称">
                     <el-input v-model="form.examName" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
           </el-row>
           <el-row :gutter="20" type="flex" justify="center">
-            <el-col :span="6">
-                <el-form-item label="所属测试ID">
-                  <el-input v-model="form.examId" placeholder="请输入问题ID"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
                 <el-form-item label="问题状态" >
                   <el-switch v-model="form.questionStatus" active-text="禁用" inactive-text="正常" :active-value="0" 
                   :inactive-value="1" active-color="#ff4949" inactive-color="#13ce66">
                   </el-switch>
                 </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
                 <el-form-item label="问题类型">
                     <el-radio-group v-model="form.questionType">
                         <el-radio :label="1">单选题</el-radio>
@@ -40,32 +35,19 @@
             </el-col>
           </el-row>
           <el-row :gutter="20" type="flex" justify="center">
-            <el-col :span="12">
-              <el-form-item label="问题描述">
-                    <el-input type="textarea" :rows="2" placeholder="请输入内容"
+            <el-col :span="7">
+               <el-form-item label="问题描述">
+                   <el-input type="textarea" autosize placeholder="请输入内容"
                         v-model="form.questionName">
-                    </el-input>
+                  </el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-divider>下面是问题选项编辑</el-divider>
-          <el-row :gutter="20" type="flex" justify="center" >
-            <el-col :span="6" v-for="(item,index) in dynamicItem" :key="index">
-                 <el-form-item
-                    :label="'选项' + (index+1)"
-                    :prop="'dynamicItem.' + index + '.option'"
-                >
-                    <el-input v-model="item.option"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <i class="el-icon-delete" @click="deleteItem(item, index)"></i>
-                </el-form-item>
+            <el-col :span="7">
             </el-col>
           </el-row>
         </el-form>
         <el-button type="warning" @click="toBack" >返回</el-button>
-        <el-button @click="addItem" type="primary">增加</el-button>
-        <el-button  type="primary" @click="updateUserInfo">确定修改</el-button>
+        <el-button  type="primary" @click="updateUserInfo">确定创建</el-button>
     </el-card>
   </div>
 </template>
@@ -91,7 +73,12 @@ export default {
     methods: {
       //返回用户列表组件
       toBack() {
-        this.$router.push({path: '/user/list'})
+        this.$router.push({
+            path: '/exam/question/list',
+            query: {
+                examId:this.form.examId
+            }
+        })
       },
       addItem () {
         this.dynamicItem.push({

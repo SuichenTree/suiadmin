@@ -18,6 +18,8 @@ export default {
         str += url[i];
       }
       const path = this.$route.query;
+      console.log("path",path);
+      console.log("str",str);
       this.$router.push({
         path: str,
       });

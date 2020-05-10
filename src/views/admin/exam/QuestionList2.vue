@@ -4,7 +4,7 @@
             <div slot="header">
                 <el-row type="flex" class="row-bg" justify="space-between">
                     <el-col :span="2">
-                        <span>测试题目列表页面</span>
+                        <span>题目列表页面</span>
                     </el-col>
                     <el-col :span="4">
                         <el-button size="small" type="primary" @click="toAddQuestion">新增题目</el-button>
@@ -241,7 +241,7 @@ export default {
         //分页查询
         PaginationSelect(){
             let that = this;
-            this.$axios.get("/shu/admin/getQuestionByExamId",{params: { examId:this.$route.query.examId,currentPage:this.currentPage,pageSize:this.pageSize}})
+            this.$axios.get("/shu/admin/getAllQuestion",{params: { examId:this.$route.query.examId,currentPage:this.currentPage,pageSize:this.pageSize}})
             .then(function (res) {
                 if(res.data.isSuccess == 1){
                     console.log("查询题库 success");
