@@ -65,24 +65,22 @@ Vue.use(VueRouter)
         name:"测试列表",
         path:"/exam/list",
         component: () => import('@/views/admin/exam/ExamList.vue')
-      },{
-        name:"测试题目列表",
-        path:"/exam/question/list",
-        component: () => import('@/views/admin/exam/QuestionList.vue')
-      },{
-        name:"题目编辑",
-        path:"/exam/question/edit",
-        component: () => import('@/views/admin/exam/QuestionEdit.vue')
-      },{
-        name:"题目新增",
-        path:"/exam/question/add",
-        component: () => import('@/views/admin/exam/QuestionAdd.vue')
       },
       //题目Question
       {
         name:"题目列表",
         path:"/question/list",
-        component: () => import('@/views/admin/exam/QuestionList2.vue')
+        component: () => import('@/views/admin/question/QuestionList.vue')
+      },{
+        name:"题目新增",
+        path:"/question/add",
+        component: () => import('@/views/admin/question/QuestionAdd.vue')
+      },
+      //选项Option
+      {
+        name:"选项表",
+        path:"/option/list",
+        component: () => import('@/views/admin/option/OptionList.vue')
       }
     ]
   }

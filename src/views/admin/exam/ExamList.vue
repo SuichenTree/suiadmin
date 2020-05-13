@@ -12,7 +12,6 @@
                 </el-row>
             </div>
             <el-table :data="tableData" stripe style="width: 100%" >
-                <el-table-column type="index" ></el-table-column>
                 <el-table-column prop="examId" label="测试ID" ></el-table-column>
                 <el-table-column prop="examName" label="测试名称"></el-table-column>
                 <el-table-column prop="examType" label="测试类型"></el-table-column>
@@ -22,7 +21,11 @@
                         <el-tag :type="scope.row.examStatus === 1 ? 'success' : 'danger'">{{scope.row.examStatus == 1 ? "正常":"禁用"}}</el-tag>
                     </template>
                 </el-table-column>
-                 <el-table-column prop="questionNumber" label="题库数量"></el-table-column>
+                <el-table-column prop="questionNumber" label="题库数量">
+                    <template slot-scope="scope">
+                        <el-tag :type="scope.row.questionNumber === 0 ? 'danger' : 'primary'">{{scope.row.questionNumber}}</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" label="操作">
                     <template slot-scope="scope">
                         <el-button
@@ -30,12 +33,13 @@
                         @click="toEdit(scope.row)">编辑</el-button>
                         <el-button
                         size="mini"
-                        type="danger"
-                        @click="toDelete(scope.row)">删除</el-button>
-                        <el-button
-                        size="mini"
                         type="primary"
                         @click="toQuestion(scope.row)">题库</el-button>
+                        <el-button
+                        size="mini"
+                        type="danger"
+                        @click="toDelete(scope.row)">删除</el-button>
+                        
                     </template>
                 </el-table-column>
             </el-table>
@@ -110,12 +114,15 @@
 export default {
     data(){
         return{
+            //表格初始数据
             tableData: [],
             total:10,
-            dialogFormEdit: false,
-            dialogFormAdd: false,
             currentPage:1,
             pageSize:10,
+            //控制对话框显示
+            dialogFormEdit: false,
+            dialogFormAdd: false,
+            //对话框数据
             form: {
                 examId:"",
                 examName:"",
@@ -188,7 +195,7 @@ export default {
       //删除测试
       toDelete(obj){
           let that = this;
-            this.$confirm('此操作将永久删除该测试, 是否继续?', '提示', {
+            this.$confirm('此操作将永久删除该测试,以及包含的问题和问题选项, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -236,12 +243,12 @@ export default {
       },
       //查询测试Exam的题库
       toQuestion(obj){
-          this.$router.push({
-               path: '/exam/question/list',
-               query: {
-                   examId:obj.examId,
-               }
-          })
+            this.$router.push({
+                path: '/question/list',
+                query: {
+                    examId:obj.examId,
+                }
+            })
       },
       //分页处理1
       handleSizeChange(val) {

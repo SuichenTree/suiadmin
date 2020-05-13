@@ -13,20 +13,51 @@
                 </el-row>
             </div>
             <el-table :data="tableData" stripe style="width: 100%" @selection-change="handleSelectionChange">
-                <el-table-column type="selection"  width="50" ></el-table-column>
-                <el-table-column type="index" width="50"></el-table-column>
-                <el-table-column prop="headUrl" label="头像" width="80">
+                <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="demo-table-expand">
+                        <el-form-item label="用户ID">
+                            <span>{{ props.row.id }}</span>
+                        </el-form-item>
+                        <el-form-item label="姓名">
+                            <span>{{ props.row.name }}</span>
+                        </el-form-item>
+                        <el-form-item label="性别">
+                            <span>{{ props.row.gender }}</span>
+                        </el-form-item>
+                        <el-form-item label="年龄">
+                            <span>{{ props.row.age }}</span>
+                        </el-form-item>
+                        <el-form-item label="电话">
+                            <span>{{ props.row.phone }}</span>
+                        </el-form-item>
+                        <el-form-item label="邮箱">
+                            <span>{{ props.row.email }}</span>
+                        </el-form-item>
+                        <el-form-item label="所在地区">
+                            <span>{{ props.row.address}}</span>
+                        </el-form-item>
+                        <el-form-item label="是否管理员">
+                            <span>{{ props.row.isAdmin === 1 ? "是":"否"}}</span>
+                        </el-form-item>
+                        <el-form-item label="最后登录时间">
+                            <span>{{ props.row.lastLoginTime}}</span>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                </el-table-column>
+                <el-table-column type="selection"  ></el-table-column>
+                <el-table-column prop="headUrl" label="头像" >
                     <template slot-scope="scope">
                         <el-avatar shape="square" :size="40" :src="scope.row.headUrl" ></el-avatar>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="ID" width="60"></el-table-column>
+                <el-table-column prop="id" label="ID" ></el-table-column>
                 <el-table-column prop="name" label="姓名"></el-table-column>
                 <el-table-column prop="gender"  label="性别"></el-table-column>
                 <el-table-column prop="age" label="年龄"></el-table-column>
-                <el-table-column prop="phone" label="电话" width="150"></el-table-column>
-                <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
-                <el-table-column prop="address" label="所在地区" width="250"></el-table-column>
+                <el-table-column prop="isAdmin" label="是否管理员"></el-table-column>
+                <el-table-column prop="lastLoginTime" label="最后登录时间"></el-table-column>
                 <el-table-column fixed="right" label="操作"  width="180">
                     <template slot-scope="scope">
                         <el-button

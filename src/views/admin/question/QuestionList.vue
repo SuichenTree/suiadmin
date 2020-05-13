@@ -2,13 +2,32 @@
     <div>
         <el-card class="box-card" shadow="always">
             <div slot="header">
-                <el-row type="flex" class="row-bg" justify="space-between">
-                    <el-col :span="2">
-                        <span>测试题目列表页面</span>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-button size="small" type="primary" @click="toAddQuestion">新增题目</el-button>
-                    </el-col>
+                <el-row :gutter="20">
+                  <el-col :span="2"><span>题目列表页面</span></el-col>
+                  <el-col :span="3">
+                        <el-select v-model="examId" filterable clearable placeholder="请选择测试名称">
+                            <el-option
+                            v-for="item in examNameOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                  </el-col>
+                  <el-col :span="3">
+                     <el-select v-model="questionType" clearable placeholder="请选择题目类型">
+                        <el-option
+                        v-for="item in questionTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                     </el-select>
+                  </el-col>
+                  <el-col :span="1">
+                      <el-button size="small" type="warning" plain @click="searchQuestion">搜索</el-button>
+                  </el-col>
+                  <el-col :span="2" :offset="11"><el-button size="small" type="primary" @click="toAddQuestion">新增题目</el-button></el-col>
                 </el-row>
             </div>
             <el-table :data="tableData" stripe style="width: 100%">
@@ -16,7 +35,7 @@
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
                         <el-form-item label="所属测试ID">
-                            <span>{{ props.row.examId }}</span>
+                            <span>{{ props.row.examId}}</span>
                         </el-form-item>
                         <el-form-item label="所属测试名称">
                             <span>{{ props.row.examName }}</span>
@@ -36,6 +55,9 @@
                         <el-form-item label="问题状态">
                             <span>{{ props.row.questionStatus === 1 ? "正常":"禁用"}}</span>
                         </el-form-item>
+                        <el-form-item label="选项数量">
+                            <span>{{ props.row.optionNumber}}</span>
+                        </el-form-item>
                     </el-form>
                 </template>
                 </el-table-column>
@@ -48,6 +70,11 @@
                         <el-tag :type="scope.row.questionStatus === 1 ? 'success' : 'danger'">{{scope.row.questionStatus == 1 ? "正常":"禁用"}}</el-tag>
                     </template>
                 </el-table-column>
+                <el-table-column prop="optionNumber" label="选项数量">
+                    <template slot-scope="scope">
+                        <el-tag :type="scope.row.optionNumber === 0 ? 'danger' : 'primary'">{{scope.row.optionNumber}}</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" label="操作">
                     <template slot-scope="scope">
                         <el-button
@@ -55,7 +82,8 @@
                         @click="toQuestionEdit(scope.row)">问题编辑</el-button>
                          <el-button
                         size="mini"
-                        @click="toEdit(scope.row)">选项编辑</el-button>
+                        type="primary"
+                        @click="toOptionList(scope.row)">选项库</el-button>
                         <el-button
                         size="mini"
                         type="danger"
@@ -118,18 +146,31 @@
 export default {
     data(){
         return{
+            //控制对话框显示
             dialogFormQuestionEdit:false,
+            //表格默认初始数据
             tableData: [],
             total:10,
-            examId:"",
             currentPage:1,
             pageSize:10,
+            examId:"",
+            questionType:"",
+            //对话框表单数据
             form: {
                 questionId:"",
                 questionName:"",
                 questionType:"",
                 questionStatus:""
-            }
+            },
+            //搜索框数据
+            examNameOptions: [],
+            questionTypeOptions:[{
+                value:"单选题",
+                label:"单选题"
+                },{
+                value:"多选题",
+                label:"多选题"
+            }],
         }
     },methods:{
         //对话框关闭后的回调函数
@@ -164,8 +205,8 @@ export default {
                     that.dialogFormQuestionEdit = false;
                     //消息提示
                     that.$message.success('修改成功');
-                    //通过空组件中转，来实现当前组件刷新
-                    that.$router.push({path: '/empty',query:that.$router.currentRoute.fullPath})
+                    //执行分页查询
+                    that.PaginationSelect();
                 }else{
                     that.$message.error('修改失败,输入信息有误！！！');
                 }
@@ -176,47 +217,46 @@ export default {
         //新增题目
         toAddQuestion(){
             this.$router.push({
-               path: '/exam/question/add',
+               path: '/question/add',
                query: {
                    examId:this.examId
                }
           })
         },
-        //删除用户
+        //删除题目
         toDelete(obj){
             let that = this;
-            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+            this.$confirm('此操作将永久删除该题目以及题目包含的选项, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$axios.delete("/shu/admin/user",{params: {userId:obj.id}})
+                this.$axios.delete("/shu/admin/question",{params: {questionId:obj.questionId}})
                 .then(function (res) {
                 if(res.data.isSuccess == 1){
-                    console.log("删除单个用户成功");
+                    console.log("删除题目成功");
                     //删除成功消息提示
-                        that.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                        //通过空组件中转，来实现当前组件刷新
-                       that.$router.push({path: '/empty',query:that.$router.currentRoute.fullPath})
+                    that.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    //执行分页查询
+                    that.PaginationSelect();
                 }else{
-                    console.log("删除单个用户失败");
-                        that.$message({
-                            type: 'warning',
-                            message: '删除失败!'
-                        });
+                    console.log("删除题目失败");
+                    that.$message({
+                        type: 'warning',
+                        message: '删除失败!'
+                    });
                 }
                 })
                 .catch(function (error) {
                     console.log("服务器未响应，请等待！！");
                     that.$message({
-                            type: 'warning',
-                            message: '服务器未响应，请等待！！！!'
-                        });
+                        type: 'warning',
+                        message: '服务器未响应，请等待！！！!'
+                    });
                 })
-            
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -241,7 +281,14 @@ export default {
         //分页查询
         PaginationSelect(){
             let that = this;
-            this.$axios.get("/shu/admin/getQuestionByExamId",{params: { examId:this.$route.query.examId,currentPage:this.currentPage,pageSize:this.pageSize}})
+            this.$axios.get("/shu/admin/getAllQuestion",
+            {params: 
+                {   examId:this.examId,
+                    questionType:this.questionType,
+                    currentPage:this.currentPage,
+                    pageSize:this.pageSize
+                }
+            })
             .then(function (res) {
                 if(res.data.isSuccess == 1){
                     console.log("查询题库 success");
@@ -255,12 +302,45 @@ export default {
             .catch(function (error) {
                 console.log("服务器未响应，请等待！！");
             })
+        },
+        //查询搜索下拉框选项
+        SearchExamName(){
+            let that = this;
+            this.$axios.get("/shu/admin/getSearchExamName")
+            .then(function (res) {
+                if(res.data.isSuccess == 1){
+                    console.log("查询搜索下拉框选项 success");
+                    that.examNameOptions = res.data.examNameOptions;
+                }else{
+                    console.log("查询搜索下拉框选项 fail");
+                }
+            })
+            .catch(function (error) {
+                console.log("服务器未响应，请等待！！");
+            })
+        },
+        //点击搜索按钮
+        searchQuestion(){
+            this.PaginationSelect();
+        },
+        //路由进入选项页面
+        toOptionList(obj){
+           this.$router.push({
+               path: '/option/list',
+               query: {
+                   questionId:obj.questionId,
+               }
+            })
         }
+
     },mounted(){
-        //接受路由传值
+        //接受路由传值，分页查询
         let that = this;
         this.examId = this.$route.query.examId;
         this.PaginationSelect();
+
+        //搜索下拉框选项
+        this.SearchExamName();
     }
 }
 </script>
