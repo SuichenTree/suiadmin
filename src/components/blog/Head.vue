@@ -4,11 +4,11 @@
         <el-row type="flex" class="row-bg" justify="center">
           <el-col :span="6">
              <div style="text-align:center;line-height:61px;font-size:20px">
-              <span>suichenTree BLOG</span>
+              <span>SuichenTree BLOG</span>
             </div>
           </el-col>
           <el-col :span="6">
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
                 <el-menu-item index="1">首页</el-menu-item>
                 <el-menu-item index="2">首页2</el-menu-item>
                 <el-menu-item index="3">首页3</el-menu-item>

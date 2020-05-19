@@ -31,6 +31,15 @@
               <el-menu-item index="/option/list">选项列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+          <el-submenu index="/blog">
+            <template slot="title">
+              <i class="el-icon-edit-outline"></i>
+              <span>博客管理</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/article/edit">文章编辑</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
     </el-menu>
 </div>
 </template>

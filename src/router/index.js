@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import home from '@/views/admin/Home.vue'
 import login from "@/views/Login.vue"
 import test from "@/views/Test.vue"
-import TEST2 from "@/views/TEST2.vue"
+import blogIndex from "@/views/blog/Index.vue"
 
 Vue.use(VueRouter)
 
@@ -23,11 +23,7 @@ Vue.use(VueRouter)
     name: "测试页面",
     component:test
   },
-  {
-    path: '/test2',
-    name: "测试页面2",
-    component:TEST2
-  },
+  //管理系统首页
   {
     path: '/home',
     name:"主页面",
@@ -81,8 +77,20 @@ Vue.use(VueRouter)
         name:"选项表",
         path:"/option/list",
         component: () => import('@/views/admin/option/OptionList.vue')
+      },
+      //博客blog
+      {
+        name:"文章编辑",
+        path:"/article/edit",
+        component: () => import('@/views/blog/ArticleEdit.vue')
       }
     ]
+  },
+  //博客
+  {
+    path: '/blog',
+    name: "博客首页",
+    component:blogIndex
   }
 ]
 
