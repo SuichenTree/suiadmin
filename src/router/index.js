@@ -82,7 +82,7 @@ Vue.use(VueRouter)
       {
         name:"文章编辑",
         path:"/article/edit",
-        component: () => import('@/views/blog/ArticleEdit.vue')
+        component: () => import('@/views/admin/blog/ArticleEdit.vue')
       }
     ]
   },

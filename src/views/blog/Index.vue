@@ -5,15 +5,21 @@
           <!-- 头部组件 -->
           <b_Head/>
         </el-header>
-        <el-main>Main</el-main>
+        <!-- 主体组件 -->
+        <el-main>
+          <b_main/>
+        </el-main>
         <el-footer>Footer</el-footer>
     </el-container>
   </div>
 </template>
 
+
+
+
 <script>
 import b_Head from '@/components/blog/Head.vue'
-
+import b_main from "@/components/blog/Main.vue"
 
 export default {
   name: 'index',
@@ -24,41 +30,36 @@ export default {
   methods: {
   },
   components: {
-    "b_Head":b_Head
+    "b_Head":b_Head,
+    "b_main":b_main
   }
 }
 </script>
 
 <style>
-  html,body,#app,.el-container{
-      /*设置内部填充为0，几个布局元素之间没有间距*/
-      padding: 0px;
-        /*外部间距也是如此设置*/
-      margin: 0px;
-      /*统一设置高度为100%*/
-      height: 100%;
-  }
-
+html,body,#app,.el-container{
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
 .index{
     height: 100%;
 }
-
-  .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-  }
-  .el-header{
-    background-color: #FFF;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
+.el-footer {
+  background-color: #B3C0D1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+.el-main {
+  background-color: rgb(218, 203, 203);
+  color: #333;
+  text-align: center;
+}
+.el-header{
+  background-color: #FFF;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
 </style>

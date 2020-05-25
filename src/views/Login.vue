@@ -3,7 +3,7 @@
     <img src="@/assets/logo.png" style="margin-top: 60px;">
     <h1>Welcome to SuichenTree 博客后台</h1>
     <h2>管理员登录</h2>
-    <div class="main">
+    <div class="login-input">
       <el-row type="flex" class="row-bg" justify="center" :gutter="20">
         <el-col :span="5">
           <div class="grid-content bg-purple-light">

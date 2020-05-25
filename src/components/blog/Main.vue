@@ -1,8 +1,7 @@
 <template>
   <div class="main">
     <el-row :gutter="20">
-      <!-- 文章列表 -->
-      <el-col :span="10" :offset="4">
+      <el-col :span="8" :offset="6">
          <el-card class="box-card" style="text-align:left;">
           <div slot="header" class="clearfix" >
             <span>最新文章</span>
@@ -21,20 +20,47 @@
                 </div>
                 <el-divider></el-divider>
             </div>
+
+
+
+            <!-- <div>
+              <el-link style="font-weight: bold;font-size:20px;">java教程</el-link>
+              <p>前端、后端、数据结构与算法、计算机基础</p>
+              <div>
+                <span>查看<i class="el-icon-view el-icon--right"></i>1926</span>
+                <el-divider direction="vertical"></el-divider>
+                <span>更新时间：2020-02-09 11:54:36</span>
+              </div>
+              <div style="margin-top:10px;">
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+              </div>
+              <el-divider></el-divider>
+            </div>
+            <div>
+              <el-link style="font-weight: bold;font-size:20px;">java教程</el-link>
+              <p>前端、后端、数据结构与算法、计算机基础、设计模式、数据库等书籍前端、后端、数据结构与算法、计算机基础、设计模式、数据库等书籍</p>
+              <div>
+                <span>查看<i class="el-icon-view el-icon--right"></i>1926</span>
+                <el-divider direction="vertical"></el-divider>
+                <span>更新时间：2020-02-09 11:54:36</span>
+              </div>
+              <div style="margin-top:10px;">
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+                <el-tag>标签二</el-tag>
+              </div>
+              <el-divider></el-divider>
+            </div> -->
           </div>
         </el-card>
       </el-col>
-      <!-- 信息介绍 -->
-      <el-col :span="6">
-        <el-card class="box-card" style="text-align: center">
-            <img src="@/assets/user.jpg" class="right-logo">
-            <div style="font-size:25px;font-weight:bold;">SuiChenTree</div>
-            <el-divider>标签云</el-divider>
-            <div class="tags">
-              <el-tag type="success" v-for="(item,index) in tagList" :key="index">{{item.tagName}}</el-tag>
-            </div>
-        </el-card>
-      </el-col>
+      <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
     </el-row>
   </div>
 </template>
@@ -63,56 +89,7 @@ export default {
             tags:[
               "java","后端","技术","随笔","什么"
             ]
-          },
-          {
-            linkURL:"https://blog.csdn.net/Doctor_LY/article/details/95488260",
-            title:"Nodejs教程",
-            describe:"前端、后端",
-            viewCount:19116,
-            updateTime:"2020-02-09 11:54:36",
-            tags:[
-              "java","后端"
-            ]
           }
-        ],
-        tagList:[
-          {
-            tagId:"1",
-            tagName:"数据结构与算法"
-          },
-          {
-            tagId:"2",
-            tagName:"理财"
-          },
-          {
-            tagId:"3",
-            tagName:"router"
-          },
-          {
-            tagId:"4",
-            tagName:"标签二"
-          },
-          {
-            tagId:"5",
-            tagName:"vue"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          }
-
         ]
       }
     }
@@ -143,12 +120,6 @@ export default {
 }
 
 .el-tag{
-  margin-top:5px;
   margin-right:10px;
-}
-
-.right-logo{
-  width: 130px;
-  border-radius: 50%;
-}
+} 
 </style>
