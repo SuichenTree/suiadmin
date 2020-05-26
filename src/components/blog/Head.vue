@@ -8,9 +8,9 @@
             </div>
           </el-col>
           <el-col :span="6">
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
-                <el-menu-item index="1">首页</el-menu-item>
-                <el-menu-item index="2">首页2</el-menu-item>
+            <el-menu router default-active="/blog/index" class="el-menu-demo" mode="horizontal">
+                <el-menu-item index="/blog/index">首页</el-menu-item>
+                <el-menu-item index="/blog/article">文章</el-menu-item>
                 <el-menu-item index="3">首页3</el-menu-item>
                 <el-menu-item index="4">首页4</el-menu-item>
               </el-menu>

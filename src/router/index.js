@@ -89,8 +89,16 @@ Vue.use(VueRouter)
   //博客
   {
     path: '/blog',
-    name: "博客首页",
-    component:blogIndex
+    name: "博客主页面",
+    component:blogIndex,
+    redirect: "/blog/index", 
+    children:[
+      {
+        name:"博客首页",
+        path:"/blog/index",
+        component: () => import('@/components/blog/Main.vue')
+      }
+    ]
   }
 ]
 

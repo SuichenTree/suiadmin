@@ -1,126 +1,36 @@
 <template>
-  <div class="main">
-    <el-row :gutter="20">
-      <!-- 文章列表 -->
-      <el-col :span="10" :offset="4">
-         <el-card class="box-card" style="text-align:left;">
-          <div slot="header" class="clearfix" >
-            <span>最新文章</span>
-          </div>
-          <div class="text item">
-            <div v-for="(item,index) in articleList" :key="index">
-                <el-link :href="item.linkURL" target="_blank" style="font-weight: bold;font-size:20px;">{{item.title}}</el-link>
-                <p>{{item.describe}}</p>
+  <div class="articleContent">
+      <el-row :gutter="20">
+        <el-col :span="12" :offset="6">
+          <div>
+              <h2>JavaScript 数据结构与算法之美 - 桶排序、计数排序、基数排序</h2>
+              <div style="text-align:left;">
                 <div>
-                  <span>查看<i class="el-icon-view el-icon--right"></i>{{item.viewCount}}</span>
+                  <span>查看<i class="el-icon-view el-icon--right"></i>1222</span>
                   <el-divider direction="vertical"></el-divider>
-                  <span>更新时间：{{item.updateTime}}</span>
+                  <span>更新时间：2020-02-09 11:54:36</span>
                 </div>
-                <div style="margin-top:10px;">
-                  <el-tag v-for="(it,index) in item.tags" :key="index">{{it}}</el-tag>
+                <el-divider content-position="left">所属标签</el-divider>
+                <div style="margin-top:10px;margin-left:10px;">
+                  <el-tag>java</el-tag>
+                  <el-tag>java</el-tag>
+                  <el-tag>java</el-tag>
+                  <el-tag>java</el-tag>
                 </div>
-                <el-divider></el-divider>
-            </div>
+              </div>
           </div>
-        </el-card>
-      </el-col>
-      <!-- 信息介绍 -->
-      <el-col :span="6">
-        <el-card class="box-card" style="text-align: center">
-            <img src="@/assets/user.jpg" class="right-logo">
-            <div style="font-size:25px;font-weight:bold;">SuiChenTree</div>
-            <el-divider>标签云</el-divider>
-            <div class="tags">
-              <el-tag type="success" v-for="(item,index) in tagList" :key="index">{{item.tagName}}</el-tag>
-            </div>
-        </el-card>
-      </el-col>
-    </el-row>
+        </el-col>
+      </el-row>
   </div>
 </template>
 
 <script>
 export default {
-    data () {
-      return {
-        articleList:[
-          {
-            linkURL:"https://blog.csdn.net/Doctor_LY/article/details/95488260",
-            title:"java教程",
-            describe:"前端、后端、数据结构与算法、计算机基础、设计模式、数据库等书籍前端、后端、数据结构与算法、计算机基础、设计模式、数据库等书籍",
-            viewCount:1926,
-            updateTime:"2020-02-09 11:54:36",
-            tags:[
-              "java","后端","技术","随笔"
-            ]
-          },
-          {
-            linkURL:"https://blog.csdn.net/Doctor_LY/article/details/95488260",
-            title:"mysql教程",
-            describe:"前端、后端、数据结构与算法、计算机基础",
-            viewCount:196,
-            updateTime:"2020-02-09 11:54:36",
-            tags:[
-              "java","后端","技术","随笔","什么"
-            ]
-          },
-          {
-            linkURL:"https://blog.csdn.net/Doctor_LY/article/details/95488260",
-            title:"Nodejs教程",
-            describe:"前端、后端",
-            viewCount:19116,
-            updateTime:"2020-02-09 11:54:36",
-            tags:[
-              "java","后端"
-            ]
-          }
-        ],
-        tagList:[
-          {
-            tagId:"1",
-            tagName:"数据结构与算法"
-          },
-          {
-            tagId:"2",
-            tagName:"理财"
-          },
-          {
-            tagId:"3",
-            tagName:"router"
-          },
-          {
-            tagId:"4",
-            tagName:"标签二"
-          },
-          {
-            tagId:"5",
-            tagName:"vue"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          },
-          {
-            tagId:"6",
-            tagName:"java"
-          }
 
-        ]
-      }
-    }
 }
 </script>
 
 <style scoped>
-
 .el-col {
   border-radius: 4px;
 }
@@ -128,7 +38,7 @@ export default {
   background: #99a9bf;
 }
 .bg-purple {
-  background: #d3dce6;
+  background: #c6cdd4;
 }
 .bg-purple-light {
   background: #e5e9f2;
@@ -140,15 +50,5 @@ export default {
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
-}
-
-.el-tag{
-  margin-top:5px;
-  margin-right:10px;
-}
-
-.right-logo{
-  width: 130px;
-  border-radius: 50%;
 }
 </style>

@@ -2,12 +2,12 @@
   <div class="index">
     <el-container>
         <el-header>
-          <!-- 头部组件 -->
+          <!--头部组件 -->
           <b_Head/>
         </el-header>
         <!-- 主体组件 -->
         <el-main>
-          <b_main/>
+          <router-view/>
         </el-main>
         <el-footer>Footer</el-footer>
     </el-container>
@@ -19,7 +19,6 @@
 
 <script>
 import b_Head from '@/components/blog/Head.vue'
-import b_main from "@/components/blog/Main.vue"
 
 export default {
   name: 'index',
@@ -30,8 +29,7 @@ export default {
   methods: {
   },
   components: {
-    "b_Head":b_Head,
-    "b_main":b_main
+    "b_Head":b_Head
   }
 }
 </script>
@@ -52,7 +50,7 @@ html,body,#app,.el-container{
   line-height: 60px;
 }
 .el-main {
-  background-color: rgb(218, 203, 203);
+  background-color: rgb(221, 232, 241);
   color: #333;
   text-align: center;
 }
