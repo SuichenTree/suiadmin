@@ -4,21 +4,9 @@
         <el-col :span="12" :offset="6">
           <div>
               <h2>JavaScript 数据结构与算法之美 - 桶排序、计数排序、基数排序</h2>
-              <div style="text-align:left;">
-                <div>
-                  <span>查看<i class="el-icon-view el-icon--right"></i>1222</span>
-                  <el-divider direction="vertical"></el-divider>
-                  <span>更新时间：2020-02-09 11:54:36</span>
-                </div>
-                <el-divider content-position="left">所属标签</el-divider>
-                <div style="margin-top:10px;margin-left:10px;">
-                  <el-tag>java</el-tag>
-                  <el-tag>java</el-tag>
-                  <el-tag>java</el-tag>
-                  <el-tag>java</el-tag>
-                </div>
-              </div>
+              <a href="../../../public/articleFile/Axios.html" target="_blank">sssss</a>
           </div>
+         
         </el-col>
       </el-row>
   </div>
@@ -26,7 +14,14 @@
 
 <script>
 export default {
+    data () {
+      return {
+      }
+    },methods:{
 
+    },mounted(){
+     
+    }
 }
 </script>
 

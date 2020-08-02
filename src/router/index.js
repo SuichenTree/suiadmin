@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import home from '@/views/admin/Home.vue'
 import login from "@/views/Login.vue"
 import test from "@/views/Test.vue"
-import blogIndex from "@/views/blog/Index.vue"
 
 Vue.use(VueRouter)
 
@@ -77,26 +76,6 @@ Vue.use(VueRouter)
         name:"选项表",
         path:"/option/list",
         component: () => import('@/views/admin/option/OptionList.vue')
-      },
-      //博客blog
-      {
-        name:"文章编辑",
-        path:"/article/edit",
-        component: () => import('@/views/admin/blog/ArticleEdit.vue')
-      }
-    ]
-  },
-  //博客
-  {
-    path: '/blog',
-    name: "博客主页面",
-    component:blogIndex,
-    redirect: "/blog/index", 
-    children:[
-      {
-        name:"博客首页",
-        path:"/blog/index",
-        component: () => import('@/components/blog/Main.vue')
       }
     ]
   }

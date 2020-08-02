@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <img src="@/assets/logo.png" style="margin-top: 60px;">
-    <h1>Welcome to SuichenTree 博客后台</h1>
+    <h1>Welcome to SuichenTree 小程序后台</h1>
     <h2>管理员登录</h2>
     <div class="login-input">
       <el-row type="flex" class="row-bg" justify="center" :gutter="20">
