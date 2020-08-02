@@ -1,21 +1,22 @@
 # suiadmin
 
-小程序管理后台，vue4.0+element-ui
+小程序管理后台页面样式，vue4.0+element-ui
 
-## Project setup
+使用方法
+1.初始化项目
+## Project setup 
 ```
 npm install
 ```
-
+2.运行项目
 ### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
-
+3.构建项目
 ### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
